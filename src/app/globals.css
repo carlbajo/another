@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 10% 97%; /* Dirty white background */
+    --foreground: 30 5% 20%;
+    --card: 255 255 255; 
+    --popover: 255 255 255; 
+    --primary: 210 70% 40%; /* Darkish primary color */
+    --primary-foreground: 255 255 255; /* Light font color */
+    --secondary: 200 5% 80%; /* Light bluish secondary color */
+    --secondary-foreground: 30 5% 20%; 
+    --muted: 210 10% 90%; /* Slightly tinted white */
+    --muted-foreground: 30 5% 20%;
+    --accent: 210 70% 40%; /* Same as primary */
+    --accent-foreground: 255 255 255; 
+    --destructive: 0 70% 70%; /* Darkish red for destructive */
+    --destructive-foreground: 255 255 255; 
+    --border: 200 5% 80%; 
+    --input: 255 255 255; 
+    --ring: 210 70% 40%; /* Same as primary */
+    --radius: 0.5rem;
+  }
+  
+    .dark {
+      --background: 214 28% 14%;
+      --foreground: 180 2% 85%;
+      --card: 214 25% 18%;
+      --popover: 214 25% 18%;
+      --primary: 207 50% 40%; /* Adjusted primary color */
+      --primary-foreground: 180 2% 85%;
+      --secondary: 186 100% 55%;
+      --secondary-foreground: 180 2% 85%;
+      --muted: 214 15% 18%; /* Adjusted muted color */
+      --muted-foreground: 180 2% 85%;
+      --accent: 207 90% 45%;
+      --accent-foreground: 180 2% 85%;
+      --destructive: 0 0% 15%;
+      --destructive-foreground: 180 2% 85%;
+      --border: 220 12% 12%;
+      --input: 220 12% 12%;
+      --ring: 207 50% 40%; /* Adjusted ring color */
+      --radius: 0.5rem;
+    }
+
+  }
+
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+  }
+
+::-webkit-scrollbar-track {
+  background-color: white;
+  scrollbar-color: var(--primary);
+}

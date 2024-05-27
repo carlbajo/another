@@ -1,0 +1,153 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+ 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@id([provider, providerAccountId])
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  emailVerified DateTime?
+  password String
+  firstName String
+  lastName String
+  middleName String?
+  bio String?
+  schoolId String?
+  personalEmail String?
+  phoneNumber String?
+  city String?
+  province String?
+  country String?
+  birthdate DateTime?
+  image String?
+  enrollmentStatus EnrollmentStatus @default(CURRENTLY_STUDYING)
+  role Role @default(USER)
+  courseId String?
+  course Course? @relation(fields: [courseId], references: [id])
+  educations Education[]
+  projects Project[]
+  achievements Achievement[]
+  skill Skill[]
+  preferences Preference?
+  accounts Account[]
+  affiliations Affiliations[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id String @id @default(cuid())
+  name String
+  image String?
+  user User[]
+}
+
+model Affiliations {
+  id String @id @default(cuid())
+  name String
+  user User[]
+}
+
+model Education {
+  id String @id @default(cuid())
+  schoolName String
+  dateStarted DateTime
+  dateEnded DateTime?
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Project {
+  id String @id @default(cuid())
+  name String
+  dateCompleted DateTime
+  description String?
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Achievement {
+  id String @id @default(cuid())
+  name String
+  dateAchieved DateTime
+  description String?
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Skill {
+  id String @id @default(cuid())
+  name String
+  category String
+  user User[]
+}
+
+model Preference {
+  id String @id @default(cuid())
+  privacy Privacy @default(PUBLIC)
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+}
+
+enum Privacy {
+  PUBLIC
+  PRIVATE
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum EnrollmentStatus {
+  ALUMNI
+  CURRENTLY_STUDYING
+}
+
+model EmailToken {
+  id String @id @default(cuid())
+  token String
+  email String
+  password String?
+  expires DateTime
+  @@unique([token, email])
+}
+
+model PasswordToken {
+  id String @id @default(cuid())
+  token String
+  email String
+  expires DateTime
+  @@unique([token, email])
+}
